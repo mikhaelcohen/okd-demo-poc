@@ -16,3 +16,10 @@ npm run watch
 ## Screenshot
 
 ![Screenshot](https://raw.githubusercontent.com/bengourley/basic-express-site-2016/master/screenshot.png)
+
+
+## Creation DB
+oc process mongodb-ephemeral -p MONGODB_USER=userMongo -p MONGODB_PASSWORD=passMongo -p MONGODB_DATABASE=todo -p MONGODB_ADMIN_PASSWORD=admin -n openshift | oc apply -f -
+
+## Creation app
+oc new-app https://github.com/mikhaelcohen/okd-demo-poc
