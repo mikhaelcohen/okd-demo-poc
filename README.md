@@ -13,13 +13,16 @@ npm start
 npm run watch
 ```
 
-## Screenshot
+## PaaS Deployement
 
-![Screenshot](https://raw.githubusercontent.com/bengourley/basic-express-site-2016/master/screenshot.png)
-
-
-## Creation DB
-oc process mongodb-ephemeral -p MONGODB_USER=userMongo -p MONGODB_PASSWORD=passMongo -p MONGODB_DATABASE=todo -p MONGODB_ADMIN_PASSWORD=admin -n openshift | oc apply -f -
-
-## Creation app
 oc new-app https://github.com/mikhaelcohen/okd-demo-poc
+
+## CaaS Deployement
+
+### DB Deployement
+
+oc process mongodb-ephemeral -p MONGODB_USER=letschatUser -p MONGODB_PASSWORD=letschatPass -p MONGODB_DATABASE=letschat -p MONGODB_ADMIN_PASSWORD=admin -n openshift | oc apply -f -
+
+### App Deployement
+
+oc apply -f letschat-dc.yml

@@ -1,0 +1,60 @@
+---
+kind: Route
+apiVersion: v1
+metadata:
+  name: lchat-demo-route
+  labels:
+    application: lchat-demo
+spec:
+  host: lchat.pocokd.cloudwatt.com
+  to:
+    kind: Service
+    name: svc-lchat-demo
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-lchat-demo
+  labels:
+    service: svc-lchat-demo
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    deploymentConfig: lchat-dc
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: lchat-dc
+  labels:
+    deploymentConfig: lchat-dc
+spec:
+  triggers:
+    - type: ConfigChange
+  replicas: 2
+  selector:
+    deploymentConfig: lchat-dc
+  strategy:
+    type: Rolling
+  template:
+    metadata:
+      name: lchat-demo
+      labels:
+        deploymentConfig: lchat-dc
+    spec:
+      containers:
+        - name: lchat-demo
+          image: 	sdelements/lets-chat:latest
+          imagePullPolicy: Always
+          ports:
+            - name: pt-lchat-demo
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: LCB_HTTP_PORT
+              value: "8080"
+            - name: LCB_DATABASE_URI
+              value: "mongodb://letschatUser:letschatPass@mongodb/letschat"
