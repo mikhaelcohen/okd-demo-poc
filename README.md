@@ -22,7 +22,12 @@ oc new-app https://github.com/mikhaelcohen/okd-demo-poc
 
 ### Create Route
 ```
-oc create route --service=okd-demo-poc --hostname=web.pocokd.cloudwatt.com
+oc expose svc/okd-demo-poc --hostname=web.pocokd.cloudwatt.com
+```
+
+### Delete all ressources from okd-demo
+```
+oc delete all --selector app=okd-demo-poc
 ```
 
 ## CaaS Deployement
