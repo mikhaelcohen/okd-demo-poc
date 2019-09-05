@@ -15,7 +15,14 @@ npm run watch
 
 ## PaaS Deployement
 
+### Create app
+
 oc new-app https://github.com/mikhaelcohen/okd-demo-poc
+
+### Create Route
+
+oc create route --service=okd-demo-poc --hostname=web.pocokd.cloudwatt.com
+
 
 ## CaaS Deployement
 
