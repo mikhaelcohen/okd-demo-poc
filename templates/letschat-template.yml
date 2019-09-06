@@ -5,7 +5,7 @@ metadata:
   annotations:
     description: "Lets chat services with MongoDB Database"
     iconClass: "icon-windows"
-    displayName: "Let's chat"
+    openshift.io/display-name: Lets Chat
     tags: "letschat"
 objects:
 - kind: Route
