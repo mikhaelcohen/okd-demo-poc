@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: letschat-template
+  annotations:
+    description: "Description"
+    iconClass: "icon-letscat"
+    tags: "letschat"
+objects:
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${APP_NAME}-route
+    labels:
+      application: ${APP_NAME}
+  spec:
+    host: ${APP_NAME}.pocokd.cloudwatt.com
+    to:
+      kind: Service
+      name: svc-${APP_NAME}
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: svc-${APP_NAME}
+    labels:
+      service: svc-${APP_NAME}
+  spec:
+    ports:
+      - port: 8080
+        targetPort: 8080
+        protocol: TCP
+    selector:
+      deploymentConfig: ${APP_NAME}-dc
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP_NAME}-dc
+    labels:
+      deploymentConfig: ${APP_NAME}-dc
+  spec:
+    triggers:
+      - type: ConfigChange
+    replicas: 2
+    selector:
+      deploymentConfig: ${APP_NAME}-dc
+    strategy:
+      type: Rolling
+    template:
+      metadata:
+        name: ${APP_NAME}
+        labels:
+          deploymentConfig: ${APP_NAME}-dc
+      spec:
+        containers:
+          - name: ${APP_NAME}
+            image: 	sdelements/lets-chat:latest
+            imagePullPolicy: Always
+            ports:
+              - name: pt-${APP_NAME}-demo
+                containerPort: 8080
+                protocol: TCP
+            env:
+              - name: LCB_HTTP_PORT
+                value: "8080"
+              - name: LCB_DATABASE_URI
+                value: "mongodb://letschatUser:letschatPass@mongodb/letschat"
+parameters:
+  - description: Password used for Redis authentication
+    from: '[A-Z0-9]{8}'
+    generate: expression
+    name: REDIS_PASSWORD
+  - description: Application Name for letschat
+    name: APP_NAME
+    required: true
+    value: lchat
+  # - description:	The name of the OpenShift Service exposed for the database.
+  #   name:		DATABASE_SERVICE_NAME
+  #   display Name:	Database Service Name
+  #   required:		true
+  #   value: mongodb
+  # - description:	Username for MongoDB user that will be used for accessing the database.
+  #   name: MONGODB_USER
+  #   display Name:	MongoDB Connection Username
+  #   required:		true
+  #   Generated: expression
+  #   From:		user[A-Z0-9]{3}
+  #
+  #   Name:		MONGODB_PASSWORD
+  #   Display Name:	MongoDB Connection Password
+  #   Description:	Password for the MongoDB connection user.
+  #   Required:		true
+  #   Generated:		expression
+  #   From:		[a-zA-Z0-9]{16}
+  #
+  #   Name:		MONGODB_DATABASE
+  #   Display Name:	MongoDB Database Name
+  #   Description:	Name of the MongoDB database accessed.
+  #   Required:		true
+  #   Value:		sampledb
+  #
+  #   Name:		MONGODB_ADMIN_PASSWORD
+  #   Display Name:	MongoDB Admin Password
+  #   Description:	Password for the database admin user.
+  #   Required:		true
+  #   Generated:		expression
+  #   From:		[a-zA-Z0-9]{16}
+  #
+  #   Name:		MONGODB_VERSION
+  #   Display Name:	Version of MongoDB Image
+  #   Description:	Version of MongoDB image to be used (2.4, 2.6, 3.2 or latest).
+  #   Required:		true
+  #   Value:		3.2
