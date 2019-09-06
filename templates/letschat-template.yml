@@ -5,7 +5,7 @@ metadata:
   annotations:
     description: "Lets chat services with MongoDB Database"
     iconClass: "icon-windows"
-    openshift.io/display-name: Lets Chat
+    openshift.io/display-name: Lets Chat & MongoDB
     tags: "letschat"
 objects:
 - apiVersion: v1
