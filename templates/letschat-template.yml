@@ -3,8 +3,8 @@ kind: Template
 metadata:
   name: letschat-template
   annotations:
-    description: "Description"
-    iconClass: "icon-letscat"
+    description: "Lets chat services with MongoDB Database"
+    iconClass: "icon-windows"
     tags: "letschat"
 objects:
 - kind: Route
