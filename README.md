@@ -43,3 +43,12 @@ oc process mongodb-ephemeral -p MONGODB_USER=letschatUser -p MONGODB_PASSWORD=le
 ```
 oc apply -f letschat-dc.yml
 ```
+
+## Template Deployement
+
+### Template Deployement
+
+Deploiement d'une DB MongoDB et de 2 pods lets chat
+```
+oc apply -f templates/letschat-template.yml
+```
