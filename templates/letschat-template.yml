@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: L
+  name: letschat-template
   annotations:
     description: "Lets chat services with MongoDB Database"
     iconClass: "icon-windows"
